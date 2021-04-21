@@ -293,6 +293,31 @@ exports.socket = async (req, res, next) => {
 
     const { id } = req.params;
     const { socketId } = req.body;
+
+    mysql.getConnection((error, conn) => {
+        if (error) { return res.status(500).send({ error: error }) };
+        conn.query(
+            `update usuarios set
+             socketId = ?
+             where id = ?`,
+            [socketId, id],
+            (error, resultado, field) => {
+                conn.release();
+                if (error) { return res.status(500).send({ error: error }) };
+
+                res.status(202).send({
+                    error: false
+                })
+            }
+        )
+    })
+
+}
+
+
+exports.socketCoods = async (req, res, next) => {
+
+    const { id } = req.params;
     const { MinhaLat } = req.body;
     const { Minhalng } = req.body;
 
@@ -300,11 +325,10 @@ exports.socket = async (req, res, next) => {
         if (error) { return res.status(500).send({ error: error }) };
         conn.query(
             `update usuarios set
-             socketId = ?,
              latitude = ?,
              longitude = ?
              where id = ?`,
-            [socketId, MinhaLat, Minhalng, id],
+            [MinhaLat, Minhalng, id],
             (error, resultado, field) => {
                 conn.release();
                 if (error) { return res.status(500).send({ error: error }) };

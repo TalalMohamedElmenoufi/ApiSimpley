@@ -25,4 +25,6 @@ router.post('/pre-ride', usuarios.preRide);
 
 router.put('/socket/:id', usuarios.socket);
 
+router.put('/socketCoods/:id', usuarios.socketCoods);
+
 module.exports = router;
