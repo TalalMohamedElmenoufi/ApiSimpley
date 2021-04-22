@@ -29,11 +29,11 @@ exports.insertUsuario = (req, res, next) => {
         conn.query(
             'insert into usuarios (fbId, nome, email, tipo, accessToken) value (?, ?, ?, ?, ?)',
             [
-                req.body.fbId,
+                ((req.body.fbId) ? req.body.fbId : ''),
                 req.body.nome,
                 req.body.email,
                 req.body.tipo,
-                req.body.accessToken,
+                ((req.body.accessToken) ? req.body.accessToken : ''),
             ],
             (error, resultado, field) => {
                 conn.release();
