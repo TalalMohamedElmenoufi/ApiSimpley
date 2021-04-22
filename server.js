@@ -7,7 +7,7 @@ const mysql = require('./mysql').pool;
 
 const io = require('socket.io')(server);
 app.io = io;
- 
+  
 io.sockets.on('connection', (socket) => {
     console.log('Conectou ID: ' + socket.id);
 
@@ -20,7 +20,7 @@ io.sockets.on('connection', (socket) => {
                 if (error) { return res.status(500).send({ error: error }) };
                 
                 socket.emit('ListaUsuarios', resultado);
-
+ 
             }
         )
     })
