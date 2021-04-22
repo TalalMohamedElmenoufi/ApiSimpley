@@ -7,6 +7,7 @@ const mysql = require('./mysql').pool;
 
 const io = require('socket.io')(server);
 app.io = io;
+var previousData = {}
  
 io.sockets.on('connection', (socket) => {
     console.log('Conectou ID: ' + socket.id);
@@ -24,6 +25,20 @@ io.sockets.on('connection', (socket) => {
             }
         )
     })
+
+    socket.on('newPosition', data => {
+        //Emite a localizacao aos demais usuários
+        // var q = `insert into posicoes values (null, 1,'${data.latitude}','${data.longitude}', CURRENT_TIMESTAMP)`
+        // connection.query(q, function (err, rows, fields) {
+        //   if (err) throw err;
+    
+        // })
+        console.log(data)
+        if (previousData !== data) {
+          socket.broadcast.emit('changePosition', data);
+        }
+        previousData = data
+      });
 
 });
 
