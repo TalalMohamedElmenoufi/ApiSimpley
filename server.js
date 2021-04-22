@@ -15,13 +15,13 @@ io.sockets.on('connection', (socket) => {
     mysql.getConnection((error, conn) => {
         if (error) { return res.status(500).send({ error: error }) };
         conn.query(
-            'select * from usuarios;',
+            'select * from usuarios ;',
             (error, resultado, field) => {
                 conn.release();
                 if (error) { return res.status(500).send({ error: error }) };
                 
                 socket.emit('ListaUsuarios', resultado);
-
+ 
             }
         )
     })
