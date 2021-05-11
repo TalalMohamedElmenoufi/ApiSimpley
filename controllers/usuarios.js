@@ -1,4 +1,3 @@
-
 const mysql = require('../mysql').pool;
 
 const googleMaps = require('../services/googleMaps');
@@ -287,7 +286,7 @@ exports.preRide = async (req, res, next) => {
         res.json({ error: true, message: err.message });
     }
 
-}
+} 
 
 exports.socket = async (req, res, next) => {
 
@@ -339,5 +338,34 @@ exports.socketCoods = async (req, res, next) => {
             }
         )
     })
+
+}
+
+exports.chamado = (req, res, next) => {
+
+    const { idCliente } = req.body;
+    const { idTecnico } = req.body;
+
+    mysql.getConnection((error, conn) => {
+        if (error) { return res.status(500).send({ error: error }) };
+        conn.query(
+            'insert into chamados (id_cliente, id_tecnico) value (?, ?)',
+            [
+                idCliente,
+                idTecnico
+            ],
+            (error, resultado, field) => {
+                conn.release();
+                if (error) { return res.status(500).send({ error: error }) };
+                res.status(201).send({
+                    chamado: {
+                        error: false,
+                        resposta: resultado
+                    }
+                })
+
+            }
+        )
+    });
 
 }

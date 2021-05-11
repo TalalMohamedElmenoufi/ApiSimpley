@@ -27,4 +27,6 @@ router.put('/socket/:id', usuarios.socket);
 
 router.put('/socketCoods/:id', usuarios.socketCoods);
 
+router.post('/chamado', usuarios.chamado);
+
 module.exports = router;
